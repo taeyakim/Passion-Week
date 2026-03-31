@@ -19,6 +19,43 @@
       touch-action: none;
     }
 
+    /* 상단 탭 버튼 영역 */
+    .tabs-container {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      z-index: 20;
+      padding: 0 16px;
+      overflow-x: auto;
+      /* 스크롤바 숨김 */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .tabs-container::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.5);
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: #fff;
+      color: #111;
+      font-weight: bold;
+      border-color: #fff;
+    }
+
     .viewer {
       display: flex;
       flex-direction: column;
@@ -27,6 +64,7 @@
       width: 100vw;
       height: 100vh;
       gap: 16px;
+      padding-top: 70px; /* 탭 영역 여유 확보 */
     }
 
     .card-container {
@@ -64,14 +102,13 @@
 
     .counter {
       position: absolute;
-      top: -28px;
+      top: -24px;
       right: 0;
       color: rgba(255,255,255,0.5);
       font-size: 12px;
       letter-spacing: 1px;
     }
 
-    /* 하단 컨트롤: 화살표 + 인디케이터 — 이미지 밖 */
     .controls {
       display: flex;
       align-items: center;
@@ -103,9 +140,9 @@
       display: flex;
       gap: 6px;
       align-items: center;
-      flex-wrap: wrap;
       justify-content: center;
       max-width: 240px;
+      flex-wrap: wrap;
     }
 
     .dot {
@@ -144,102 +181,198 @@
 </head>
 <body>
 
+<div class="tabs-container" id="tabsContainer"></div>
+
 <div class="viewer">
+  <div class="card-container">
+    <div class="counter" id="counter"></div>
+    <div id="cardsWrapper"></div>
+  </div>
 
-  <div class="card-container" id="cardContainer">
-    <div class="counter" id="counter">1 / 17</div>
-
-    <div class="card active" id="card-0"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_002.jpeg" alt="슬라이드 1"  loading="eager" /></div>
-    <div class="card next"   id="card-1"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_003.jpeg" alt="슬라이드 2"  loading="lazy" /></div>
-    <div class="card hidden" id="card-2"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_004.jpeg" alt="슬라이드 3"  loading="lazy" /></div>
-    <div class="card hidden" id="card-3"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_005.jpeg" alt="슬라이드 4"  loading="lazy" /></div>
-    <div class="card hidden" id="card-4"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_006.jpeg" alt="슬라이드 5"  loading="lazy" /></div>
-    <div class="card hidden" id="card-5"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_007.jpeg" alt="슬라이드 6"  loading="lazy" /></div>
-    <div class="card hidden" id="card-6"><img src="KakaoTalk_Photo_2026-03-30-23-22-26_008.jpeg" alt="슬라이드 7"  loading="lazy" /></div>
-    <div class="card hidden" id="card-7"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_009.jpeg" alt="슬라이드 8"  loading="lazy" /></div>
-    <div class="card hidden" id="card-8"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_010.jpeg" alt="슬라이드 9"  loading="lazy" /></div>
-    <div class="card hidden" id="card-9"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_011.jpeg" alt="슬라이드 10" loading="lazy" /></div>
-    <div class="card hidden" id="card-10"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_012.jpeg" alt="슬라이드 11" loading="lazy" /></div>
-    <div class="card hidden" id="card-11"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_013.jpeg" alt="슬라이드 12" loading="lazy" /></div>
-    <div class="card hidden" id="card-12"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_014.jpeg" alt="슬라이드 13" loading="lazy" /></div>
-    <div class="card hidden" id="card-13"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_015.jpeg" alt="슬라이드 14" loading="lazy" /></div>
-    <div class="card hidden" id="card-14"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_016.jpeg" alt="슬라이드 15" loading="lazy" /></div>
-    <div class="card hidden" id="card-15"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_017.jpeg" alt="슬라이드 16" loading="lazy" /></div>
-    <div class="card hidden" id="card-16"><img src="KakaoTalk_Photo_2026-03-30-23-22-27_018.jpeg" alt="슬라이드 17" loading="lazy" /></div>
-   </div>
-
-  <!-- 화살표 + 인디케이터 — 이미지 아래 -->
   <div class="controls">
     <button class="arrow" id="btnPrev" onclick="navigate(-1)">&#8592;</button>
     <div class="indicator" id="indicator"></div>
     <button class="arrow" id="btnNext" onclick="navigate(1)">&#8594;</button>
   </div>
-
 </div>
 
 <div class="hint" id="hint">← 스와이프하거나 화살표로 넘기세요 →</div>
 
 <script>
-  const TOTAL = 17;
-  let current = 0;
-  let startX = 0;
-  let isDragging = false;
-  let dragDelta = 0;
+  // ================================================================
+  // 날짜별 이미지 데이터
+  // 매일 집회 후 아래 패턴으로 객체 하나씩 추가하면 됩니다.
+  //
+  // 폴더 구조:
+  //   index.html
+  //   day_1/  ← 1일차 이미지들
+  //   day_2/  ← 2일차 이미지들
+  //   day_3/  ← 3일차 이미지들 (추가 예정)
+  //   ...
+  // ================================================================
+  const daysData = [
 
-  const cards = Array.from({length: TOTAL}, (_, i) => document.getElementById('card-' + i));
-  const counter = document.getElementById('counter');
-  const indicator = document.getElementById('indicator');
+    // ── 1일차 ──────────────────────────────────────────────────────
+    {
+      title: "1일 차",
+      images: [
+        "day_1/KakaoTalk_Photo_2026-03-30-23-22-26_002.jpeg",
+        "day_1/KakaoTalk_Photo_2026-03-30-23-22-26_003.jpeg",
+        "day_1/KakaoTalk_Photo_2026-03-30-23-22-26_004.jpeg",
+        // 1일차 이미지 파일명을 여기에 계속 추가하세요
+      ]
+    },
 
-  // 인디케이터 생성
-  for (let i = 0; i < TOTAL; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goTo(i));
-    indicator.appendChild(dot);
+    // ── 2일차 ──────────────────────────────────────────────────────
+    {
+      title: "2일 차",
+      images: [
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_002.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_003.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_004.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_005.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_006.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_007.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_008.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_009.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_010.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_011.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_012.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_013.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_014.jpeg",
+        "day_2/KakaoTalk_Photo_2026-03-31-23-09-23_015.jpeg",
+      ]
+    },
+
+    // ── 3일차 (추가 예정) ──────────────────────────────────────────
+    // {
+    //   title: "3일 차",
+    //   images: [
+    //     "day_3/KakaoTalk_Photo_XXXX_001.jpeg",
+    //     "day_3/KakaoTalk_Photo_XXXX_002.jpeg",
+    //   ]
+    // },
+
+    // ── 4일차 (추가 예정) ──────────────────────────────────────────
+    // {
+    //   title: "4일 차",
+    //   images: [
+    //     "day_4/KakaoTalk_Photo_XXXX_001.jpeg",
+    //   ]
+    // },
+
+    // ── 5일차 (추가 예정) ──────────────────────────────────────────
+    // {
+    //   title: "5일 차",
+    //   images: [
+    //     "day_5/KakaoTalk_Photo_XXXX_001.jpeg",
+    //   ]
+    // },
+
+  ];
+
+  // ================================================================
+  // 이하 로직은 수정 불필요
+  // ================================================================
+  let currentDayIndex = daysData.length - 1;
+  let currentCardIndex = 0;
+  let cards = [];
+  let totalCards = 0;
+
+  const tabsContainer = document.getElementById('tabsContainer');
+  const cardsWrapper  = document.getElementById('cardsWrapper');
+  const counter       = document.getElementById('counter');
+  const indicator     = document.getElementById('indicator');
+
+  function renderTabs() {
+    tabsContainer.innerHTML = '';
+    daysData.forEach((day, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn' + (index === currentDayIndex ? ' active' : '');
+      btn.textContent = day.title;
+      btn.onclick = () => loadDay(index);
+      tabsContainer.appendChild(btn);
+    });
+  }
+
+  function loadDay(dayIndex) {
+    currentDayIndex = dayIndex;
+    currentCardIndex = 0;
+    const dayImages = daysData[dayIndex].images;
+    totalCards = dayImages.length;
+
+    document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+      btn.className = 'tab-btn' + (idx === currentDayIndex ? ' active' : '');
+    });
+
+    cardsWrapper.innerHTML = '';
+    indicator.innerHTML = '';
+    cards = [];
+
+    dayImages.forEach((src, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `슬라이드 ${i + 1}`;
+      img.loading = i === 0 ? "eager" : "lazy";
+      card.appendChild(img);
+      cardsWrapper.appendChild(card);
+      cards.push(card);
+
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.onclick = () => goTo(i);
+      indicator.appendChild(dot);
+    });
+
+    updateClasses();
   }
 
   function updateClasses() {
-    const prev = (current - 1 + TOTAL) % TOTAL;
-    const next = (current + 1) % TOTAL;
+    if (totalCards === 0) return;
+    const prev = (currentCardIndex - 1 + totalCards) % totalCards;
+    const next = (currentCardIndex + 1) % totalCards;
 
     cards.forEach((card, i) => {
       card.className = 'card';
-      if (i === current) card.classList.add('active');
-      else if (i === prev)    card.classList.add('prev');
-      else if (i === next)    card.classList.add('next');
-      else                    card.classList.add('hidden');
+      if (i === currentCardIndex) card.classList.add('active');
+      else if (i === prev)        card.classList.add('prev');
+      else if (i === next)        card.classList.add('next');
+      else                        card.classList.add('hidden');
     });
 
-    document.querySelectorAll('.dot').forEach((dot, i) => {
-      dot.className = 'dot' + (i === current ? ' active' : '');
+    Array.from(indicator.children).forEach((dot, i) => {
+      dot.className = 'dot' + (i === currentCardIndex ? ' active' : '');
     });
 
-    counter.textContent = (current + 1) + ' / ' + TOTAL;
+    counter.textContent = (currentCardIndex + 1) + ' / ' + totalCards;
   }
 
   function goTo(idx) {
-    current = (idx + TOTAL) % TOTAL;  // 순환
+    currentCardIndex = (idx + totalCards) % totalCards;
     updateClasses();
   }
 
   function navigate(dir) {
-    goTo(current + dir);
+    goTo(currentCardIndex + dir);
   }
 
   // 터치 스와이프
-  const container = document.getElementById('cardContainer');
+  let startX = 0, isDragging = false, dragDelta = 0;
+  const swipeContainer = document.querySelector('.card-container');
 
-  container.addEventListener('touchstart', e => {
+  swipeContainer.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
     isDragging = true;
   }, { passive: true });
 
-  container.addEventListener('touchmove', e => {
+  swipeContainer.addEventListener('touchmove', e => {
     if (!isDragging) return;
     dragDelta = e.touches[0].clientX - startX;
   }, { passive: true });
 
-  container.addEventListener('touchend', () => {
+  swipeContainer.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
     if (dragDelta < -50)      navigate(1);
@@ -248,10 +381,10 @@
   });
 
   // 마우스 드래그
-  container.addEventListener('mousedown', e => {
+  swipeContainer.addEventListener('mousedown', e => {
     startX = e.clientX;
     isDragging = true;
-    container.style.cursor = 'grabbing';
+    swipeContainer.style.cursor = 'grabbing';
   });
   document.addEventListener('mousemove', e => {
     if (!isDragging) return;
@@ -260,7 +393,7 @@
   document.addEventListener('mouseup', () => {
     if (!isDragging) return;
     isDragging = false;
-    container.style.cursor = 'default';
+    swipeContainer.style.cursor = 'default';
     if (dragDelta < -50)      navigate(1);
     else if (dragDelta > 50)  navigate(-1);
     dragDelta = 0;
@@ -272,12 +405,9 @@
     if (e.key === 'ArrowRight') navigate(1);
   });
 
-  setTimeout(() => {
-    const hint = document.getElementById('hint');
-    if (hint) hint.style.display = 'none';
-  }, 4000);
-
-  updateClasses();
+  // 초기 실행
+  renderTabs();
+  loadDay(currentDayIndex);
 </script>
 </body>
 </html>
