@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>'26 주님의교회 고난주간 특별집회</title>
+
+  <!-- ▼ 카카오톡 링크 미리보기 설정 -->
+  <!-- thumbnail.jpeg 파일을 매일 최신 이미지로 덮어쓰면 미리보기가 자동으로 바뀝니다 -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="'26 주님의교회 고난주간 특별집회" />
+  <meta property="og:description" content="십자가 앞에 서다" />
+  <meta property="og:image"       content="https://taeyakim.github.io/Passion-Week/thumbnail.jpeg" />
+  <meta property="og:url"         content="https://taeyakim.github.io/Passion-Week/" />
+  <!-- ▲ 카카오톡 링크 미리보기 설정 끝 -->
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -19,7 +29,6 @@
       touch-action: none;
     }
 
-    /* 상단 탭 버튼 영역 */
     .tabs-container {
       position: absolute;
       top: 20px;
@@ -31,7 +40,6 @@
       z-index: 20;
       padding: 0 16px;
       overflow-x: auto;
-      /* 스크롤바 숨김 */
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
@@ -64,7 +72,7 @@
       width: 100vw;
       height: 100vh;
       gap: 16px;
-      padding-top: 70px; /* 탭 영역 여유 확보 */
+      padding-top: 70px;
     }
 
     .card-container {
@@ -205,6 +213,7 @@
   //
   // 폴더 구조:
   //   index.html
+  //   thumbnail.jpeg  ← 매일 최신 대표 이미지로 덮어쓰기 (카톡 미리보기용)
   //   day_1/  ← 1일차 이미지들
   //   day_2/  ← 2일차 이미지들
   //   day_3/  ← 3일차 이미지들 (추가 예정)
